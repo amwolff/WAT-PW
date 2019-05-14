@@ -1,5 +1,4 @@
 package com.mut.concurrentprogrammingcourse;
 
-public interface Client extends Runnable {
-
+public class Shop {
 }
