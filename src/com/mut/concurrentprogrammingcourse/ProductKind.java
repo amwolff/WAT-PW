@@ -18,7 +18,7 @@ public class ProductKind {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        ProductKind kind = (ProductKind) obj;
+        final ProductKind kind = (ProductKind) obj;
         return kind.getId().equals(getId());
     }
 }

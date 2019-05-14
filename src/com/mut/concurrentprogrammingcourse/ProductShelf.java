@@ -13,12 +13,12 @@ public class ProductShelf {
         this.productGroupPopulation = productGroupPopulation;
     }
 
-    public Product buy(ProductKind kind) {
+    public Product acquireOne(ProductKind kind) {
         // fast path:
         for (List<Product> products : productGroups) {
             if (!products.isEmpty()) {
                 int idx = products.size() - 1;
-                Product aux = products.get(idx);
+                final Product aux = products.get(idx);
                 if (aux.getKind().equals(kind)) {
                     products.remove(idx);
                     return aux;
@@ -33,6 +33,11 @@ public class ProductShelf {
                     products.add(storekeeper.deliver(kind));
                     if (i == productGroupPopulation - 1) {
                         ret = products.remove(products.size() - 1);
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
