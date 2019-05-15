@@ -15,7 +15,7 @@ public class Store {
         for (int i = 0; i < k; i++) {
             final List<Product> products = new LinkedList<>();
             for (int j = 0; j < m; j++) {
-                products.add(new Product(new ProductKind(j)));
+                products.add(new Product(new ProductKind(i)));
             }
             productGroups.add(products);
         }
