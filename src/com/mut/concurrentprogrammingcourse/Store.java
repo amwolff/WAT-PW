@@ -1,5 +1,6 @@
 package com.mut.concurrentprogrammingcourse;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -8,15 +9,15 @@ import java.util.concurrent.Semaphore;
 public class Store {
     final private List<ProductRack> productRacks;
     final private List<Semaphore> rackMtxs;
-    final private Random randomSource;
+    final private Random randSrc;
 
-    public Store(int n, int k, int m) {
-        productRacks = new LinkedList<>();
-        rackMtxs = new LinkedList<>();
+    public Store(int n, int k, int m, Random randSrc) {
+        productRacks = new ArrayList<>();
+        rackMtxs = new ArrayList<>();
 
         final Storekeeper storekeeper = new Storekeeper();
         for (int i = 0; i < n; i++) {
-            final List<List<Product>> productGroups = new LinkedList<>();
+            final List<List<Product>> productGroups = new ArrayList<>();
             for (int j = 0; j < k; j++) {
                 final List<Product> products = new LinkedList<>();
                 for (int l = 0; l < m; l++) {
@@ -25,11 +26,11 @@ public class Store {
                 productGroups.add(products);
             }
 
-            productRacks.add(new ProductRack(productGroups, storekeeper, m));
+            productRacks.add(new ProductRack(productGroups, m, storekeeper));
             rackMtxs.add(new Semaphore(1, true));
         }
 
-        randomSource = new Random();
+        this.randSrc = randSrc;
     }
 
     public Product buy(ProductKind kind, boolean hurry) {
@@ -49,7 +50,7 @@ public class Store {
             return null;
         }
 
-        final int idx = randomSource.nextInt(productRacks.size());
+        final int idx = randSrc.nextInt(productRacks.size());
 
         Product ret = null;
         try {

@@ -2,19 +2,19 @@ package com.mut.concurrentprogrammingcourse;
 
 import java.util.Random;
 
-public class Client implements Runnable {
+final public class Client implements Runnable {
     final private int id;
     final private Store store;
-    final private boolean inHurry;
     final private int maxProductKinds;
-    final private Random randomSource;
+    final private boolean inHurry;
+    final private Random randSrc;
 
-    public Client(int id, Store store, int maxProductKinds, boolean inHurry) {
+    public Client(int id, Store store, int maxProductKinds, boolean inHurry, Random randSrc) {
         this.id = id;
         this.store = store;
-        this.inHurry = inHurry;
         this.maxProductKinds = maxProductKinds;
-        randomSource = new Random();
+        this.inHurry = inHurry;
+        this.randSrc = randSrc;
     }
 
     /**
@@ -30,7 +30,7 @@ public class Client implements Runnable {
      */
     @Override
     public void run() {
-        Product bought = store.buy(new ProductKind(randomSource.nextInt(maxProductKinds)), inHurry);
+        final Product bought = store.buy(new ProductKind(randSrc.nextInt(maxProductKinds)), inHurry);
         if (bought == null) {
             System.out.printf("Client no. %d left the store\n", id);
             return;

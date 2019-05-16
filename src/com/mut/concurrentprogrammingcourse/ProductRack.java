@@ -4,13 +4,13 @@ import java.util.List;
 
 public class ProductRack {
     final private List<List<Product>> productGroups;
-    final private Storekeeper storekeeper;
     final private int shelfSize;
+    final private Storekeeper storekeeper;
 
-    public ProductRack(List<List<Product>> productGroups, Storekeeper storekeeper, int shelfSize) {
+    public ProductRack(List<List<Product>> productGroups, int shelfSize, Storekeeper storekeeper) {
         this.productGroups = productGroups;
-        this.storekeeper = storekeeper;
         this.shelfSize = shelfSize;
+        this.storekeeper = storekeeper;
     }
 
     public Product acquireOne(ProductKind kind) {
