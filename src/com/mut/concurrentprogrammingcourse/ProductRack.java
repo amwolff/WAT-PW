@@ -2,22 +2,22 @@ package com.mut.concurrentprogrammingcourse;
 
 import java.util.List;
 
-public class ProductShelf {
+public class ProductRack {
     final private List<List<Product>> productGroups;
     final private Storekeeper storekeeper;
-    final private int productGroupPopulation;
+    final private int shelfSize;
 
-    public ProductShelf(List<List<Product>> productGroups, Storekeeper storekeeper, int productGroupPopulation) {
+    public ProductRack(List<List<Product>> productGroups, Storekeeper storekeeper, int shelfSize) {
         this.productGroups = productGroups;
         this.storekeeper = storekeeper;
-        this.productGroupPopulation = productGroupPopulation;
+        this.shelfSize = shelfSize;
     }
 
     public Product acquireOne(ProductKind kind) {
         // fast path:
         for (List<Product> products : productGroups) {
             if (!products.isEmpty()) {
-                int idx = products.size() - 1;
+                final int idx = products.size() - 1;
                 final Product aux = products.get(idx);
                 if (aux.getKind().equals(kind)) {
                     products.remove(idx);
@@ -25,23 +25,23 @@ public class ProductShelf {
                 }
             }
         }
+
         // (continued) slow path:
-        Product ret = null;
         for (List<Product> products : productGroups) {
             if (products.isEmpty()) {
-                for (int i = 0; i < productGroupPopulation; i++) {
+                for (int i = 0; i < shelfSize; i++) {
                     products.add(storekeeper.deliver(kind));
-                    if (i == productGroupPopulation - 1) {
-                        ret = products.remove(products.size() - 1);
-                    }
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        // add anyway
                     }
                 }
+                return products.remove(products.size() - 1);
             }
         }
-        return ret;
+
+        return null;
     }
 }

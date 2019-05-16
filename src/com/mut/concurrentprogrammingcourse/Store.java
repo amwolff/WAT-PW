@@ -6,37 +6,38 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class Store {
-    final private List<ProductShelf> productShelves;
-    final private List<Semaphore> shelfMtxs;
+    final private List<ProductRack> productRacks;
+    final private List<Semaphore> rackMtxs;
     final private Random randomSource;
 
     public Store(int n, int k, int m) {
-        final List<List<Product>> productGroups = new LinkedList<>();
-        for (int i = 0; i < k; i++) {
-            final List<Product> products = new LinkedList<>();
-            for (int j = 0; j < m; j++) {
-                products.add(new Product(new ProductKind(i)));
-            }
-            productGroups.add(products);
-        }
+        productRacks = new LinkedList<>();
+        rackMtxs = new LinkedList<>();
 
-        productShelves = new LinkedList<>();
-        shelfMtxs = new LinkedList<>();
         final Storekeeper storekeeper = new Storekeeper();
         for (int i = 0; i < n; i++) {
-            productShelves.add(new ProductShelf(productGroups, storekeeper, m));
-            shelfMtxs.add(new Semaphore(1, true));
+            final List<List<Product>> productGroups = new LinkedList<>();
+            for (int j = 0; j < k; j++) {
+                final List<Product> products = new LinkedList<>();
+                for (int l = 0; l < m; l++) {
+                    products.add(new Product(new ProductKind(j)));
+                }
+                productGroups.add(products);
+            }
+
+            productRacks.add(new ProductRack(productGroups, storekeeper, m));
+            rackMtxs.add(new Semaphore(1, true));
         }
+
         randomSource = new Random();
     }
 
     public Product buy(ProductKind kind, boolean hurry) {
         if (hurry) {
-            for (int i = 0; i < productShelves.size(); i++) {
-                final Semaphore mtx = shelfMtxs.get(i);
-                if (mtx.tryAcquire()) {
-                    final Product ret = productShelves.get(i).acquireOne(kind);
-                    mtx.release();
+            for (int i = 0; i < productRacks.size(); i++) {
+                if (rackMtxs.get(i).tryAcquire()) {
+                    final Product ret = productRacks.get(i).acquireOne(kind);
+                    rackMtxs.get(i).release();
                     return ret;
                 }
                 try {
@@ -48,16 +49,15 @@ public class Store {
             return null;
         }
 
-        final int idx = randomSource.nextInt(productShelves.size());
-        final Semaphore mtx = shelfMtxs.get(idx);
+        final int idx = randomSource.nextInt(productRacks.size());
 
         Product ret = null;
         try {
-            mtx.acquire();
+            rackMtxs.get(idx).acquire();
             try {
-                ret = productShelves.get(idx).acquireOne(kind);
+                ret = productRacks.get(idx).acquireOne(kind);
             } finally {
-                mtx.release();
+                rackMtxs.get(idx).release();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

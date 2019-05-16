@@ -1,9 +1,9 @@
 package com.mut.concurrentprogrammingcourse;
 
 public class ProductKind {
-    private final Integer id;
+    private final int id;
 
-    public ProductKind(Integer id) {
+    public ProductKind(int id) {
         this.id = id;
     }
 
@@ -13,12 +13,12 @@ public class ProductKind {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (obj == this)
             return true;
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final ProductKind kind = (ProductKind) obj;
-        return kind.getId().equals(getId());
+        final ProductKind productKind = (ProductKind) obj;
+        return productKind.getId() == id;
     }
 }

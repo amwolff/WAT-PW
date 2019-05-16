@@ -1,29 +1,40 @@
 package com.mut.concurrentprogrammingcourse;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
-        Store store = new Store(1, 1, 1);
-        Thread c1 = new Thread(new Client(1, store, false, 1));
-        Thread c2 = new Thread(new Client(2, store, false, 1));
-        Thread c3 = new Thread(new Client(3, store, true, 1));
-        c1.start();
-        c2.start();
-        c3.start();
-        try {
-            c1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        final int n = 2;
+        final int k = 4;
+        final int m = 6;
+        final int maxClients = 1500;
+        final Random randomSource = new Random();
+
+        final Store store = new Store(n, k, m);
+
+        List<Thread> clientThreads = new LinkedList<>();
+        for (int i = 0; i < maxClients; i++) {
+            clientThreads.add(new Thread(new Client(i, store, k, randomSource.nextBoolean())));
         }
-        try {
-            c2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            c3.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        clientThreads.forEach(clientThread -> {
+            clientThread.start();
+            try {
+                Thread.sleep(randomSource.nextInt(100));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        clientThreads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

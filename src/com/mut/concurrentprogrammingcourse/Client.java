@@ -6,15 +6,15 @@ public class Client implements Runnable {
     final private int id;
     final private Store store;
     final private boolean inHurry;
-    final private Random randomSource;
     final private int maxProductKinds;
+    final private Random randomSource;
 
-    public Client(int id, Store store, boolean inHurry, int maxProductKinds) {
+    public Client(int id, Store store, int maxProductKinds, boolean inHurry) {
         this.id = id;
         this.store = store;
         this.inHurry = inHurry;
-        randomSource = new Random();
         this.maxProductKinds = maxProductKinds;
+        randomSource = new Random();
     }
 
     /**
@@ -32,9 +32,9 @@ public class Client implements Runnable {
     public void run() {
         Product bought = store.buy(new ProductKind(randomSource.nextInt(maxProductKinds)), inHurry);
         if (bought == null) {
-            System.out.printf("Client %d left the store\n", id);
+            System.out.printf("Client no. %d left the store\n", id);
             return;
         }
-        System.out.printf("Client %d bought product of kind %d\n", id, bought.getKind().getId());
+        System.out.printf("Client no. %d bought product of kind no. %d\n", id, bought.getKind().getId());
     }
 }
