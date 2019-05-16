@@ -3,11 +3,11 @@ package com.mut.concurrentprogrammingcourse;
 public class ProductKind {
     private final int id;
 
-    public ProductKind(int id) {
+    ProductKind(int id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    Integer getId() {
         return id;
     }
 

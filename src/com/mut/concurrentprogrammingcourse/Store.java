@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
-public class Store {
+class Store {
     final private List<ProductRack> productRacks;
     final private List<Semaphore> rackMtxs;
     final private Random randSrc;
 
-    public Store(int n, int k, int m, Random randSrc) {
+    Store(int n, int k, int m, Random randSrc) {
         productRacks = new ArrayList<>();
         rackMtxs = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class Store {
         this.randSrc = randSrc;
     }
 
-    public Product buy(ProductKind kind, boolean hurry) {
+    Product buy(ProductKind kind, boolean hurry) {
         if (hurry) {
             for (int i = 0; i < productRacks.size(); i++) {
                 if (rackMtxs.get(i).tryAcquire()) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-final public class Launcher {
+final class Launcher {
     final private int n;
     final private int k;
     final private int m;
@@ -12,7 +12,7 @@ final public class Launcher {
     final private int maxClients;
     final private Random randSrc;
 
-    public Launcher(int n, int k, int m, int maxClients) {
+    Launcher(int n, int k, int m, int maxClients) {
         this.n = n;
         this.k = k;
         this.m = m;
@@ -22,7 +22,7 @@ final public class Launcher {
         store = new Store(this.n, this.k, this.m, randSrc);
     }
 
-    public void run() {
+    void run() {
         final List<Thread> clientThreads = new ArrayList<>();
         for (int i = 0; i < maxClients; i++) {
             clientThreads.add(new Thread(new Client(i, store, k, randSrc.nextBoolean(), randSrc)));

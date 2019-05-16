@@ -2,18 +2,18 @@ package com.mut.concurrentprogrammingcourse;
 
 import java.util.List;
 
-public class ProductRack {
+class ProductRack {
     final private List<List<Product>> productGroups;
     final private int shelfSize;
     final private Storekeeper storekeeper;
 
-    public ProductRack(List<List<Product>> productGroups, int shelfSize, Storekeeper storekeeper) {
+    ProductRack(List<List<Product>> productGroups, int shelfSize, Storekeeper storekeeper) {
         this.productGroups = productGroups;
         this.shelfSize = shelfSize;
         this.storekeeper = storekeeper;
     }
 
-    public Product acquireOne(ProductKind kind) {
+    Product acquireOne(ProductKind kind) {
         // fast path:
         for (List<Product> products : productGroups) {
             if (!products.isEmpty()) {

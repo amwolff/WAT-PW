@@ -9,7 +9,7 @@ final public class Client implements Runnable {
     final private boolean inHurry;
     final private Random randSrc;
 
-    public Client(int id, Store store, int maxProductKinds, boolean inHurry, Random randSrc) {
+    Client(int id, Store store, int maxProductKinds, boolean inHurry, Random randSrc) {
         this.id = id;
         this.store = store;
         this.maxProductKinds = maxProductKinds;

@@ -1,13 +1,13 @@
 package com.mut.concurrentprogrammingcourse;
 
-public class Product {
+class Product {
     final private ProductKind kind;
 
-    public Product(ProductKind kind) {
+    Product(ProductKind kind) {
         this.kind = kind;
     }
 
-    public ProductKind getKind() {
+    ProductKind getKind() {
         return kind;
     }
 }
