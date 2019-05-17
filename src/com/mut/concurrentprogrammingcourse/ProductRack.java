@@ -32,7 +32,7 @@ class ProductRack {
                 for (int i = 0; i < shelfSize; i++) {
                     products.add(storekeeper.deliver(kind));
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         // add anyway

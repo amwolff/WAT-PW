@@ -31,7 +31,7 @@ final class Launcher {
         clientThreads.forEach(thread -> {
             thread.start();
             try {
-                Thread.sleep(randSrc.nextInt(250));
+                Thread.sleep(randSrc.nextInt(1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

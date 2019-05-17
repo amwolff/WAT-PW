@@ -1,0 +1,77 @@
+\documentclass[titlepage]{article}
+
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\title{
+	\Large{Programowanie Współbieżne (zadanie)}\normalsize
+	\\
+	Wojskowa Akademia Techniczna im. Jarosława Dąbrowskiego
+	\\
+	prowadzący: mgr inż. Wacław Olech
+	}
+\author{Artur M. Wolff (grupa nr H7X2S1)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Treść zadania}
+W sklepie jest n regałów, na każdym regale k rodzajów produktów w określonej cenie, każdego rodzaju produktu jest m sztuk.
+Klienci robiąc zakupy zmniejszają liczbę produktów na półkach regałów.
+W momencie, gdy zabraknie jakiegoś produktu na regale, zatrudniony magazynier uzupełnia jego ilosć blokując przy tym regał dla kupujących.
+W programie są:
+\begin{itemize}
+	\item klienci o ograniczonej cierpliwości (czekają tylko określony czas na magazyniera i rezygnują);
+	\item klienci zdeterminowani, którzy czekają aż magazynier uzupełni regał produktami.
+\end{itemize}
+
+\section{Krótki opis problemu}
+Trudnością w implementacji jest z pewnością synchronizacja dostępu do zasobów współdzielonych (regałów) przez procesy sekwencyjne (klienci).
+Każdy klient powinien (musi) robić zakupy samodzielnie i ewentualnie czekać na magazyniera.
+Niepożądany dostęp współbieżny, w tym wypadku zakup tego samego produktu przez klientów w tym samym czasie mógłby mieć nieprzewidziane skutki.
+Zależnie od implementacji, taki błąd mógły spowodować awarię programu i nawet jego nieoczekiwany koniec (pomijając niespójności w danych w pamięci).
+
+\subsection{Przyjęte założenia}
+
+\subsubsection{Klienci}
+Aby lepiej oddać rzeczywistość, każdy klient ma ekskluzywny (blokowany) dostęp do regału.
+Każdy klient losowo wybiera rodzaj produktu, który zamierza zakupić.
+
+\subsubsection{Klienci o nieograniczonej cierpliwości}
+Każdy klient o nieograniczonej cierpliwości losowo wybiera regał, przy którym dokona zakupu.
+
+\subsubsection{Klienci o ograniczonej cierpliwości}
+Każdy "niecierpliwy" klient czeka 1000 milisekund przy zablokowanym przez magazyniera regale.
+Jeżeli magazynier nie uzupełni przez ten czas towaru, niecierpliwy klient przechodzi do kolejnego regału, aż zakupi towar lub wyjdzie ze sklepu z pustymi rękoma.
+
+\subsubsection{Magazynier}
+Magazynier dostarcza produkty na półkę z szybkością produkt / 1000 ms.
+
+\subsubsection{Launcher}
+Kolejne wątki klientów uruchamiane są co losowany od 0 włącznie do 1000 wyłącznie milisekundowy interwał.
+
+\section{Wykaz zasobów dzielonych}
+Zasoby dzielone to część danych zawartych w obiekcie każdego ze sklepowych regałów.
+Mówiąc obrazowo: są to półki z produktami (zaimplementowane jako lista list / dwuwymiarowa macierz produktów).
+
+\section{Wykaz wyróżnionych sekcji krytycznych}
+\begin{itemize}
+	\item Metoda \texttt{acquireOne} klasy \texttt{ProductRack};
+	\item Metoda \texttt{buy} klasy \texttt{Store} (preambuła sekcji krytycznej).
+\end{itemize}
+
+\section{Wykaz obiektów synchronizacji}
+\begin{itemize}
+	\item Lista semaforów binarnych FIFO (atrybut \texttt{rackMtxs} klasy \texttt{Store}).
+\end{itemize}
+
+\section{Wykaz procesów sekwencyjnych}
+Procesy sekwencyjne (klienci) uruchamiane są w metodzie \texttt{run} klasy \texttt{Launcher}.
+Ich liczba może zostać dowolnie zmieniona (tak jak parametry n, k, m) podczas tworzenia nowej instancji klasy \texttt{Launcher}.
+
+\section{Wnioski}
+Problem związany z zadaniem został rozwiązany i zaimplementowany w języku Java.
+Odmiennie od języków programowania, takich jak C -- Java posiada dobre wbudowane wsparcie dla współbieżności.
+
+\end{document}
