@@ -11,4 +11,6 @@ Assignment for the Concurrent Programming course at the Military University of T
 > + klienci o ograniczonej cierpliwości (czekają tylko określony czas na magazyniera i rezygnują);
 > + klienci zdeterminowani, którzy czekają aż magazynier uzupełni regał produktami.
 
+***
+
 Solved in Java using standard Java Threads.

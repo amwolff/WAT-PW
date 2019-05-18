@@ -28,7 +28,7 @@ W programie są:
 
 \section{Krótki opis problemu}
 Trudnością w implementacji jest z pewnością synchronizacja dostępu do zasobów współdzielonych (regałów) przez procesy sekwencyjne (klienci).
-Każdy klient powinien (musi) robić zakupy samodzielnie i ewentualnie czekać na magazyniera.
+Każdy klient podczas robienia zakupów musi ewentualnie czekać na zwolnienie blokady przez innego klienta lub przez magazyniera.
 Niepożądany dostęp współbieżny, w tym wypadku zakup tego samego produktu przez klientów w tym samym czasie mógłby mieć nieprzewidziane skutki.
 Zależnie od implementacji, taki błąd mógły spowodować awarię programu i nawet jego nieoczekiwany koniec (pomijając niespójności w danych w pamięci).
 
