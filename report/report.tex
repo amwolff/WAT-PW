@@ -3,11 +3,11 @@
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 \title{
-	\Large{Programowanie Współbieżne (zadanie)}\normalsize
+	\Large{Programowanie Współbieżne (zadanie)}
 	\\
-	Wojskowa Akademia Techniczna im. Jarosława Dąbrowskiego
+	\normalsize{Wojskowa Akademia Techniczna im. Jarosława Dąbrowskiego}
 	\\
-	prowadzący: mgr inż. Wacław Olech
+	\normalsize{prowadzący: mgr inż. Wacław Olech}
 	}
 \author{Artur M. Wolff (grupa nr H7X2S1)}
 \date{\today}
@@ -51,9 +51,21 @@ Magazynier dostarcza produkty na półkę z szybkością produkt / 1000 ms.
 \subsubsection{Launcher}
 Kolejne wątki klientów uruchamiane są co losowany od 0 włącznie do 1000 wyłącznie milisekundowy interwał.
 
+\subsubsection{Interfejs}
+Interfejs programu jest minimalistyczny.
+Informacje potrzebne do określenia, co w danym momencie dzieje się w programie wypisywane są na standardowe wyjście.
+Można o nich myśleć jak o logu z urządzenia rejestrującego wyjście ze sklepu klienta, który kupił lub nie zakupił żadnego produktu.
+\\
+\\
+\texttt{Client no. 46 bought product of kind no. 1}
+\\
+\texttt{Client no. 50 left the store}
+\\
+\texttt{Client no. 51 left the store}
+
 \section{Wykaz zasobów dzielonych}
 Zasoby dzielone to część danych zawartych w obiekcie każdego ze sklepowych regałów.
-Mówiąc obrazowo: są to półki z produktami (zaimplementowane jako lista list / dwuwymiarowa macierz produktów).
+Mówiąc obrazowo: są to półki z produktami (zaimplementowane jako lista list / dwuwymiarowa macierz produktów -- atrybut \texttt{productGroups} klasy \texttt{ProductRack}).
 
 \section{Wykaz wyróżnionych sekcji krytycznych}
 \begin{itemize}
