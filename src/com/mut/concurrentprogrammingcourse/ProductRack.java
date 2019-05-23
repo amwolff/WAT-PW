@@ -15,7 +15,7 @@ class ProductRack {
 
     Product acquireOne(ProductKind kind) {
         // fast path:
-        for (List<Product> products : productGroups) {
+        for (final List<Product> products : productGroups) {
             if (!products.isEmpty()) {
                 final int idx = products.size() - 1;
                 final Product aux = products.get(idx);
@@ -27,7 +27,7 @@ class ProductRack {
         }
 
         // (continued) slow path:
-        for (List<Product> products : productGroups) {
+        for (final List<Product> products : productGroups) {
             if (products.isEmpty()) {
                 for (int i = 0; i < shelfSize; i++) {
                     products.add(storekeeper.deliver(kind));
