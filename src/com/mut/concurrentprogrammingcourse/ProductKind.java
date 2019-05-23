@@ -1,7 +1,7 @@
 package com.mut.concurrentprogrammingcourse;
 
 public class ProductKind {
-    private final int id;
+    final private int id;
 
     ProductKind(int id) {
         this.id = id;
